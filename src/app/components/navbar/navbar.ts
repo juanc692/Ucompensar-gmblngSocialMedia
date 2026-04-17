@@ -7,4 +7,6 @@ import { Avatar } from '../avatar/avatar';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar {}
+export class Navbar {
+  puntosCuentaComponente = 99998;
+}
