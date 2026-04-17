@@ -1,0 +1,15 @@
+.miniGamesCards{
+    display: flex;
+    gap: 20px;
+    padding-left: 50px;
+}
+.cardBtn{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+.card{
+    width: 300px;
+    height: 160px;
+    overflow: hidden;
+}
