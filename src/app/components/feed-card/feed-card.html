@@ -1,4 +1,7 @@
 <div class="card border-0 bg-light mb-3" style="min-height: 150px;">
   <div class="card-body">
+    {{setAuthor(nombre)}}
+    <small>{{ author }} - {{ formatDate() }}</small>
+    <ng-content></ng-content>
     </div>
 </div>

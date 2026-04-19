@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import {BasePost} from '@models/base-post';
 
 @Component({
   selector: 'app-feed-card',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './feed-card.html',
   styleUrl: './feed-card.css',
 })
-export class FeedCard {}
+export class FeedCard extends BasePost  {
+  @Input() nombre: string="Sin Autor";
+}
