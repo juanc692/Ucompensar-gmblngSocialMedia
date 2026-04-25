@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Avatar } from '../avatar/avatar';
 
 @Component({
@@ -9,4 +9,7 @@ import { Avatar } from '../avatar/avatar';
 })
 export class Navbar {
   puntosCuentaComponente = 99998;
+
+    @Output() toggleSidebar = new EventEmitter<void>();
+    @Output() toggleProfile = new EventEmitter<void>();
 }

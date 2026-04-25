@@ -1,17 +1,22 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom fixed-top px-3">
   <div class="container-fluid d-flex justify-content-between align-items-center">
     
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center" (click)="toggleSidebar.emit()">
       <button class="btn btn-link text-dark p-0 me-3" type="button" aria-label="Menu">
-        <i class="bi bi-list fs-3"></i> </button>
-      </div>
+        <i class="bi bi-list fs-3"
+        ></i> BOTON</button>
+    </div>
 
     <div class="d-flex align-items-center gap-3">
       <span class="currency-text fw-bold text-secondary">
         ${{puntosCuentaComponente}}
       </span>
       
-      <app-avatar [size]="42" src="https://imgs.search.brave.com/QDhdk-skqTiJkqT2Nn6JmHD4cHl1pJvSvlJ8teJNPA4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMud2lraWEubm9j/b29raWUubmV0L3Jl/aW5vYW5pbWFsaWEv/aW1hZ2VzLzAvMGEv/Wm9ycm9fcm9qb182/LnBuZy9yZXZpc2lv/bi9sYXRlc3Qvc2Nh/bGUtdG8td2lkdGgt/ZG93bi8zNjg_Y2I9/MjAxMzA0MjMyMjE1/MDgmcGF0aC1wcmVm/aXg9ZXM"></app-avatar>
+    <div (click)="toggleProfile.emit()">
+      <app-avatar 
+      [size]="42" src="https://imgs.search.brave.com/QDhdk-skqTiJkqT2Nn6JmHD4cHl1pJvSvlJ8teJNPA4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMud2lraWEubm9j/b29raWUubmV0L3Jl/aW5vYW5pbWFsaWEv/aW1hZ2VzLzAvMGEv/Wm9ycm9fcm9qb182/LnBuZy9yZXZpc2lv/bi9sYXRlc3Qvc2Nh/bGUtdG8td2lkdGgt/ZG93bi8zNjg_Y2I9/MjAxMzA0MjMyMjE1/MDgmcGF0aC1wcmVm/aXg9ZXM">
+    </app-avatar>
+    </div>
     </div>
 
   </div>
