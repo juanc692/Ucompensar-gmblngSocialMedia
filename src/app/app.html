@@ -1,12 +1,19 @@
-<app-navbar></app-navbar>
+<app-navbar
+  (toggleSidebar)="toggleSidebar()" 
+  (toggleProfile)="toggleProfile()"></app-navbar>
 <!-- <app-game-page></app-game-page> -->
 <div class="container-fluid">
   <div class="row">
+    @if (visibleSideBar()) {
     <aside class="col-md-3 d-none d-md-block bg-white border-end">
       <app-sidebar></app-sidebar>
     </aside>
+      }
 
-    <main class="col-md-6 p-4">
+    <main [class.col-md-6]="visibleSideBar() && visibleProfile()"
+          [class.col-md-9]="visibleSideBar() !== visibleProfile()"
+          [class.col-md-12]="!visibleSideBar() && !visibleProfile()"
+          class="p-4">
       <div class="row g-3">
         <div class="col-12"><app-feed-card nombre="David">
           <h5>Título del post</h5>
@@ -17,9 +24,11 @@
       </div>
     </main>
 
-    <section class="col-md-3 p-4">
-      <app-profile></app-profile>
-    </section>
+    @if (visibleProfile()) {
+      <section class="col-md-3 p-4">
+        <app-profile></app-profile>
+      </section>
+    }
   </div>
 </div>
 
