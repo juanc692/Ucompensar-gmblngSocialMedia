@@ -1,0 +1,11 @@
+.profile-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 350px; /* ajusta según tu diseño */
+    height: 400px;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+    z-index: 1050; /* encima del main */
+    overflow-y: auto;
+  }
