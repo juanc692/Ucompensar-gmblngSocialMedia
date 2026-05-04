@@ -1,0 +1,59 @@
+.bc{
+    background-color: #C3D7FF;
+}
+
+ol {
+    text-align: left;
+
+    list-style-type: none;
+    counter-reset: contador;
+    padding-left: 0;
+}
+
+li{
+    margin-bottom: 10px;
+    font-weight: bold;
+    counter-increment: contador;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    border-radius: 50px;
+    padding: 8px;
+    color: #333;
+}
+
+li::before {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+li:nth-child(1)::before {
+  content: "🥇"; 
+}
+li:nth-child(1)
+{
+    background-color: #FFD29A;
+}
+
+
+li:nth-child(2)::before {
+  content: "🥈";
+}
+li:nth-child(2)
+{
+    background-color: #E2E2E2;
+}
+
+li:nth-child(3)::before {
+  content: "🥉";
+}
+li:nth-child(3){
+    background-color: #FFF3C1;
+}
+
+li:nth-child(n+4) {
+    color: #444;
+}
+li:nth-child(n+4)::before {
+  content: counter(contador) ".";
+}
