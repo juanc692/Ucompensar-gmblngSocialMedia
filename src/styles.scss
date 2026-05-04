@@ -1,0 +1,38 @@
+@use "bootstrap/scss/bootstrap" as *;
+
+.btn-bd-primary {
+  --bs-btn-font-weight: 600;
+  --bs-btn-color: white;
+  --bs-btn-hover-color: white;
+  --bs-btn-active-color: white;
+  --bs-btn-focus-color: white;
+
+  border-radius: 100px;
+  margin: 10px;
+
+  background: linear-gradient(45deg, #F97316, #FB923C);
+  border: none;
+  max-width: 250px;
+
+}
+.btn-bd-primary:hover {
+  background: linear-gradient(45deg, #ea6a0f, #f5862b);
+}
+
+.btn-bd-primary:active {
+  background: linear-gradient(45deg, #d95f0c, #e6761f);
+}
+
+.custom-select {
+  border-radius: 50px;
+  background: linear-gradient(45deg, #F97316, #FB923C);
+  color: white;
+  border: none;
+
+  padding: 6px 16px;
+  font-weight: 500;
+}
+
+.custom-select option {
+  color: black;
+}

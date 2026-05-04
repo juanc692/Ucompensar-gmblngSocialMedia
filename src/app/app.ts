@@ -1,15 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Navbar } from "./components/navbar/navbar";
-import { Sidebar } from "./components/sidebar/sidebar";
-import { FeedCard } from "./components/feed-card/feed-card";
-import { Profile } from "./components/profile/profile";
-import { GamePage } from './components/game-page/game-page';
-
+import { Profile } from './components/profile/profile';
+import { Sidebar } from './components/sidebar/sidebar';
+import { Navbar } from './components/navbar/navbar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Sidebar, FeedCard, Profile],
+  imports: [RouterOutlet,Profile,Sidebar,Navbar],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -22,7 +19,7 @@ export class App {
       this.visibleProfile.update(v => !v);
     }
 
-toggleSidebar() {
+    toggleSidebar() {
       this.visibleSideBar.update(v => !v);
       console.log("Sidebar set to: ",this.visibleSideBar)
     }

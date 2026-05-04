@@ -9,4 +9,7 @@ import {BasePost} from '@models/base-post';
 })
 export class FeedCard extends BasePost  {
   @Input() nombre: string="Sin Autor";
+
+  @Input() title: string ="Sin titulo";
+  @Input() content: string="..."
 }
