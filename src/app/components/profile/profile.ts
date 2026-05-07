@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Avatar } from '../avatar/avatar';
 
 @Component({
@@ -9,4 +9,5 @@ import { Avatar } from '../avatar/avatar';
 })
 export class Profile {
   @Output() toggleProfile = new EventEmitter<void>();
+  @Input() nombre: string="";
 }

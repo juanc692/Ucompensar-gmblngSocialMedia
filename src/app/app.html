@@ -21,7 +21,7 @@
 
     @if (visibleProfile()) {
       <section class="col-md-3 p-4">
-        <app-profile class="profile-overlay" (toggleProfile)="toggleProfile()"
+        <app-profile nombre={{user}} class="profile-overlay" (toggleProfile)="toggleProfile()"
         animate.enter="slideIn"
         animate.leave="slideOut"
         ></app-profile>
