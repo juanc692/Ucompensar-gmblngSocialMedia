@@ -15,13 +15,9 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
-<<<<<<< HEAD:frontend/tsconfig.json
       "@models/*": ["./src/app/models/*"],
       "@components/*": ["./src/app/components/*"],
       "@pages/*": ["./src/app/pages/*"]              
-=======
-      "@models/*": ["./src/app/models/*"]
->>>>>>> main:tsconfig.json
     }
   },
   "angularCompilerOptions": {
