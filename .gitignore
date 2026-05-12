@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # ─── FRONTEND ───────────────────────────────
@@ -37,10 +38,34 @@ backend/.env
 npm-debug.log
 yarn-error.log
 libpeerconnection.log
+=======
+/connect.lock
+/coverage
+/libpeerconnection.log
+>>>>>>> main
 testem.log
 connect.lock
 
+<<<<<<< HEAD
 # ─── Sistema ────────────────────────────────
 .DS_Store
 Thumbs.db
 __screenshots__/
+=======
+# dependencies
+/node_modules
+
+# angular build
+/dist
+/.angular
+
+# tauri
+/src-tauri/target
+
+# IDE
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+>>>>>>> main

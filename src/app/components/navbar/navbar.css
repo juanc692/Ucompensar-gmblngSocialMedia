@@ -1,0 +1,5 @@
+/* Seleccionamos el botón con la clase .btn cuando tiene el foco */
+/* 1. Quitamos el borde que se queda fijo (el de Bootstrap por defecto) */
+.btn:active {
+    border-color: transparent; 
+}

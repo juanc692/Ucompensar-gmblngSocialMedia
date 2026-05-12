@@ -1,0 +1,16 @@
+
+<div class="d-flex flex-column align-items-center justify-content-center" style="height: 90vh;">
+
+  <button class="btn btn-bd-primary mb-2 w-100" [routerLink]="['/home', user]">Home</button>
+  <button class="btn btn-bd-primary mb-2 w-100" routerLink="/activities">Actividades</button>
+  <button class="btn btn-bd-primary mb-2 w-100" routerLink="/forum">Foro U</button>
+  <button class="btn btn-bd-primary mb-2 w-100" routerLink="/games">Mini juegos</button>
+
+  <!-- Estan estos 4 enrutamientos, siendo DOS tipos de enrutamiento. 3 estaticos y 1 dinamico, para ir a home, actividades, el foro y los minijuegos
+   Enrutamiento estatico es aquel que simplemente dirigirá al contenido que contiene el componente al que enrtua sin cambiar nada
+   El enrutamiento dinamico permite enviar argumentos al navegar, esto permite enviar datos al navegar-->
+
+  <div class="mt-auto" style="width: 100%;">
+    <i class="bi bi-gear fs-3">⚙️</i>
+  </div>
+</div>
