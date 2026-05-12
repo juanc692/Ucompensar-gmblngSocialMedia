@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
-import { FeedCard } from "../feed-card/feed-card";
-import {TopLeather} from "../top-leather/top-leather";
-import { PostsCard } from '../posts-card/posts-card';
+import { FeedCard } from '../../components/feed-card/feed-card';
+import{TopLeather} from '../../components/top-leather/top-leather';
+import { PostsCard } from '../../components/posts-card/posts-card';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../models/user-service';
 @Component({

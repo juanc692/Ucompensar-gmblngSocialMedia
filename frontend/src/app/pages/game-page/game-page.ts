@@ -1,7 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { Navbar } from '../navbar/navbar';
-import { Profile } from '../profile/profile';
-import { Sidebar } from '../sidebar/sidebar';
+
 
 @Component({
   selector: 'app-game-page',

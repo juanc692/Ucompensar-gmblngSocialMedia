@@ -15,7 +15,9 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
-      "@models/*": ["./src/app/models/*"]
+      "@models/*": ["./src/app/models/*"],
+      "@components/*": ["./src/app/components/*"],
+      "@pages/*": ["./src/app/pages/*"]              
     }
   },
   "angularCompilerOptions": {

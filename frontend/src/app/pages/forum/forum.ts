@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PostsCard } from '../posts-card/posts-card';
+import { PostsCard } from '../../components/posts-card/posts-card';
 
 @Component({
   selector: 'app-forum',
