@@ -1,9 +1,44 @@
-/connect.lock
-/coverage
-/libpeerconnection.log
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# ─── FRONTEND ───────────────────────────────
+frontend/dist
+frontend/tmp
+frontend/out-tsc
+frontend/bazel-out
+frontend/node_modules
+frontend/.angular/cache
+frontend/.sass-cache
+frontend/coverage
+frontend/typings
+
+# ─── BACKEND ────────────────────────────────
+backend/node_modules
+backend/.env               
+
+# ─── IDEs y editores ────────────────────────
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# ─── Visual Studio Code ─────────────────────
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+
+# ─── Logs ───────────────────────────────────
+npm-debug.log
+yarn-error.log
+libpeerconnection.log
 testem.log
-/typings
-__screenshots__/
+connect.lock
 
 # dependencies
 /node_modules
