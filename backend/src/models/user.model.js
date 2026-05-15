@@ -10,11 +10,11 @@ const findUserByEmail = async (email) => {
     }
 };
 //agregar usuario al sistema
-const insertUser = async (name, description, email, hashedPassword) => {
+const insertUser = async (name, email, hashedPassword) => {
     try {
         const [result] = await db.query(
-            'INSERT INTO users (name, description, email, password) VALUES (?, ?, ?, ?)',
-            [name, description, email, hashedPassword]
+            'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+            [name, email, hashedPassword]
         );
         return {id: result.insertId, name, description, email, password}; //result.insertId es la id que el SQL le asigno automaticamente 
     } catch (error) {

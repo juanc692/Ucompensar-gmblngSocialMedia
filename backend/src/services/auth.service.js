@@ -1,4 +1,5 @@
 //verifica que el usuario existe, la contraseña y devuelve un token JWT
+require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/user.model');
