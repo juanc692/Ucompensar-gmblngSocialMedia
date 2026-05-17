@@ -33,13 +33,27 @@ const modifyDescription = async(description, id) => {
         console.error(error);
     }
 }
+//modificar foto perfil
+const modifyMedia = async(media,id)=>{
+    try {
+        const [result] = await db.query(
+            'UPDATE users SET photo_profile = ? WHERE id = ?',
+            [media, id]
+        );
+        return result;
+    } catch (error) {
+        console.error(error)
+        throw error;
+    }
+}
 //buscar usuario por id
 const findUserById = async(id) => {
     try{
-        const [rows] = await db.query('SELECT * FROM users WHERE id = ?', [id]);
+        const [rows] = await db.query('SELECT id, name, email, description, photo_profile, points  FROM users WHERE id = ?',
+  [id]);
         return rows[0];
     } catch (error) {
         console.error(error)
     }
 } 
-module.exports = { findUserByEmail, insertUser, modifyDescription, findUserById };
+module.exports = { findUserByEmail, insertUser, modifyDescription, findUserById, modifyMedia };
