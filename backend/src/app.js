@@ -1,8 +1,16 @@
 const express = require('express');
+const cors = require("cors");
 require('dotenv').config();
 const db = require('./config/db');
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:4200',
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 db.getConnection()

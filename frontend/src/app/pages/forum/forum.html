@@ -1,26 +1,69 @@
-<div class="d-flex align-items-center gap-3">
+<div class="d-flex align-items-center gap-3 mb-3">
 
-  <select class="form-select w-auto custom-select">
-    <option>Todos</option>
-    <option>Hace una hora</option>
-    <option>Hace un día</option>
-    <option>Hace una semana</option>
+  <select class="form-select w-auto custom-select" (change)="filtrarPorCategoria($any($event.target).value)">
+    <option value="">Todos</option>
+    <option value="Ayuda">Ayuda</option>
+    <option value="Discusión">Discusión</option>
   </select>
 
-  <select class="form-select w-auto custom-select">
-    <option>Tipo</option>
-    <option>Ayuda</option>
-    <option>Discusión</option>
-  </select>
+  <input
+    type="text"
+    class="form-control flex-grow-1"
+    placeholder="Buscar"
+    [(ngModel)]="textoBusqueda"
+    (keyup.enter)="buscar()">
 
-  <input type="text" class="form-control flex-grow-1" placeholder="Buscar">
-
-  <button class="btn btn-bd-primary w-50">Escribir post</button>
+  <button class="btn btn-bd-primary w-50" (click)="toggleFormulario()">
+    {{ mostrarFormulario ? 'Cancelar' : 'Escribir post' }}
+  </button>
 </div>
 
+<!-- Formulario nuevo post -->
+@if (mostrarFormulario) {
+  <div class="card border-0 bc p-4 mb-3">
+    <h5 class="mb-3">Nuevo post</h5>
+    <select class="form-select mb-2" [(ngModel)]="nuevaCategoria">
+      <option value="Ayuda">Ayuda</option>
+      <option value="Discusión">Discusión</option>
+    </select>
+    <input
+      type="text"
+      class="form-control mb-2"
+      placeholder="Título"
+      [(ngModel)]="nuevoTitulo">
+    <textarea
+      class="form-control mb-3"
+      rows="4"
+      placeholder="¿Qué quieres compartir?"
+      [(ngModel)]="nuevoContenido">
+    </textarea>
+    <button class="btn btn-bd-primary" (click)="publicar()" [disabled]="enviando">
+      {{ enviando ? 'Publicando...' : 'Publicar' }}
+    </button>
+  </div>
+}
+
+<!-- Estado de carga / error -->
+@if (cargando) {
+  <p class="text-muted text-center mt-4">Cargando posts...</p>
+}
+@if (error) {
+  <p class="text-danger text-center mt-4">{{ error }}</p>
+}
+
+<!-- Lista de posts -->
 <div class="row">
-      <app-posts-card title="Titulo de publicacion 1" content="Contenido..." URL="https://static.vecteezy.com/system/resources/previews/003/542/126/non_2x/png-image-squares-background-free-vector.jpg"></app-posts-card>
-      <app-posts-card title="Titulo de publicacion 2" content="Mas contenido...."></app-posts-card>
+  @for (thread of threads; track thread.id) {
+    <app-posts-card
+      [title]="thread.title"
+      [content]="thread.body"
+      [category]="thread.category"
+      [createdAt]="thread.created_at">
+    </app-posts-card>
+  }
+  @empty {
+    @if (!cargando) {
+      <p class="text-muted text-center mt-4">No hay posts todavía.</p>
+    }
+  }
 </div>
-
-
