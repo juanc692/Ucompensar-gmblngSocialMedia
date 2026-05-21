@@ -1,37 +1,72 @@
-<div class="d-flex align-items-center gap-3">
+<div class="d-flex align-items-center gap-3 mb-3">
 
-  <select class="form-select w-auto custom-select">
-    <option>Todos</option>
-    <option>Hace una hora</option>
-    <option>Hace un día</option>
-    <option>Hace una semana</option>
-  </select>
+  <input
+    type="text"
+    class="form-control flex-grow-1"
+    placeholder="Buscar actividad"
+    [(ngModel)]="textoBusqueda"
+    (keyup.enter)="buscar()">
 
-  <select class="form-select w-auto custom-select">
-    <option>Tipo</option>
-    <option>Puzzle</option>
-  </select>
-
-  <input type="text" class="form-control flex-grow-1" placeholder="Buscar">
-
-  <button class="btn btn-bd-primary w-50">Crear actividad</button>
+  <button class="btn btn-bd-primary w-50" (click)="toggleFormulario()">
+    {{ mostrarFormulario ? 'Cancelar' : 'Crear actividad' }}
+  </button>
 </div>
 
+<!-- Formulario nueva actividad -->
+@if (mostrarFormulario) {
+  <div class="card border-0 bc p-4 mb-3">
+    <h5 class="mb-3">Nueva actividad</h5>
+    <input
+      type="text"
+      class="form-control mb-2"
+      placeholder="Nombre de la actividad"
+      [(ngModel)]="nuevoNombre">
+    <textarea
+      class="form-control mb-2"
+      rows="3"
+      placeholder="Descripción"
+      [(ngModel)]="nuevaDescripcion">
+    </textarea>
+    <input
+      type="number"
+      class="form-control mb-3"
+      placeholder="Costo en puntos (opcional)"
+      [(ngModel)]="nuevoCosto"
+      min="0">
+    <button class="btn btn-bd-primary" (click)="crearActividad()" [disabled]="enviando">
+      {{ enviando ? 'Creando...' : 'Crear' }}
+    </button>
+  </div>
+}
+
+<!-- Estado de carga / error -->
+@if (cargando) {
+  <p class="text-muted text-center mt-4">Cargando actividades...</p>
+}
+@if (error) {
+  <p class="text-danger text-center mt-4">{{ error }}</p>
+}
+
+<!-- Lista de actividades -->
 <div class="row justify-content-center">
   <div class="col-md-8">
     <div class="row g-3">
-      <div class="col-md-6">
-        <app-feed-card></app-feed-card>
-      </div>
-      <div class="col-md-6">
-        <app-feed-card></app-feed-card>
-      </div>
-      <div class="col-md-6">
-        <app-feed-card></app-feed-card>
-      </div>
-      <div class="col-md-6">
-        <app-feed-card></app-feed-card>
-      </div>
+      @for (activity of activities; track activity.id) {
+        <div class="col-md-6">
+          <app-feed-card
+            [title]="activity.name_activity"
+            [content]="activity.description"
+            [costPoints]="activity.cost_points"
+            [activityId]="activity.id"
+            (onJoin)="unirse($event)">
+          </app-feed-card>
+        </div>
+      }
+      @empty {
+        @if (!cargando) {
+          <p class="text-muted text-center mt-4">No hay actividades todavía.</p>
+        }
+      }
     </div>
   </div>
 </div>
