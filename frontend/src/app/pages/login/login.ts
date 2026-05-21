@@ -10,10 +10,13 @@ import { Router } from '@angular/router';
 export class Login {
   constructor(private router: Router) {}
 
-  entrar(id: string) {
-    if (id) {
-      this.router.navigate(['/home', id]);
+  entrar(usuario: string, contrasenia: string) {
+    if (!usuario || !contrasenia) {
+      alert('Por favor, rellena todos los campos.');
+      return;
     }
+    this.router.navigate(['/home', usuario]);
+    
   }
   /*
   Aqui se utiliza un tipo de enrutamiento llamado navegacion programatica, utilizando una ruta dinamica
