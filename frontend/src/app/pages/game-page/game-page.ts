@@ -1,6 +1,8 @@
 import { Component, ChangeDetectorRef, signal } from '@angular/core';
 import { UserHttpService } from '../../services/user-http.service';
 import { GamesService } from '../../services/games.service';
+import { RouterModule } from '@angular/router';
+import { SnakeComponent } from '../../components/games/snake/snake';
 
 interface Pregunta {
   enunciado: string;
@@ -28,7 +30,7 @@ const TOTAL_PREGUNTAS = 5;
 
 @Component({
   selector: 'app-game-page',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './game-page.html',
   styleUrl: './game-page.css',
 })
