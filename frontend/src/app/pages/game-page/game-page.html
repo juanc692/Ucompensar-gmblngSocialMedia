@@ -1,12 +1,18 @@
 <div class="container mt-4">
-
   <!-- MENU: cards de juegos -->
   @if (estado === 'menu') {
+    <h3 class="ms-4 mb-3 mt-4 fw-bold border-start border-3 border-primary ps-3">
+      Juegos personalisados
+    </h3>
     <div class="miniGamesCards">
-
       <!-- Trivia -->
       <div class="card text-bg-dark">
-        <img src="images/games/uno-ejemplo.png" alt="Trivia" class="card-img" style="opacity: 0.5;">
+        <img
+          src="images/games/uno-ejemplo.png"
+          alt="Trivia"
+          class="card-img"
+          style="opacity: 0.5"
+        />
         <div class="card-img-overlay d-flex flex-column align-items-center justify-content-center">
           <h5 class="text-white fw-bold mb-1">Trivia</h5>
           <small class="text-white mb-3">5 preguntas · 10 pts c/u</small>
@@ -16,14 +22,46 @@
 
       <!-- Parchís (próximamente) -->
       <div class="card text-bg-dark">
-        <img src="images/games/parchis-ejemplo.png" alt="Parchís" class="card-img" style="opacity: 0.3;">
+        <img
+          src="images/games/parchis-ejemplo.png"
+          alt="Parchís"
+          class="card-img"
+          style="opacity: 0.3"
+        />
         <div class="card-img-overlay d-flex flex-column align-items-center justify-content-center">
           <h5 class="text-white fw-bold mb-1">Parchís</h5>
           <small class="text-white mb-3">Próximamente</small>
           <button class="btn btn-secondary" disabled>Jugar</button>
         </div>
       </div>
+    </div>
 
+    <h3 class="ms-4 mb-3 mt-4 fw-bold border-start border-3 border-primary ps-3">
+      Juegos Externos
+    </h3>
+
+    <div class="miniGamesCards row g-4">
+      @for (game of dataGames(); track game.id) {
+        <div class="card text-bg-dark">
+          <div class="card text-bg-dark h-100">
+            <img
+              [src]="game.image.replace('small', 'large')"
+              [alt]="game.title"
+              class="card-img"
+              style="opacity: 0.5"
+            />
+            <div
+              class="card-img-overlay d-flex flex-column align-items-center justify-content-center"
+            >
+              <h5 class="text-white fw-bold mb-1">{{ game.title }}</h5>
+              <small class="text-white mb-3">{{ game.category }}</small>
+              <a [href]="game.url" target="_blank" class="btn btn-bd-primary">Jugar</a>
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <p class="loading">Cargando videojuegos desde GamePix...</p>
+      }
     </div>
   }
 
@@ -32,16 +70,18 @@
     <div class="row justify-content-center">
       <div class="col-md-7">
         <div class="card border-0 bc p-4">
-
           <!-- Progreso -->
           <div class="d-flex justify-content-between mb-2">
-            <small class="text-muted">Pregunta {{ indiceActual + 1 }} de {{ preguntas.length }}</small>
+            <small class="text-muted"
+              >Pregunta {{ indiceActual + 1 }} de {{ preguntas.length }}</small
+            >
             <small class="fw-bold">{{ puntajePartida }} pts</small>
           </div>
-          <div class="progress mb-4" style="height: 6px;">
-            <div class="progress-bar"
-              [style.width.%]="((indiceActual + (respondida ? 1 : 0)) / preguntas.length) * 100">
-            </div>
+          <div class="progress mb-4" style="height: 6px">
+            <div
+              class="progress-bar"
+              [style.width.%]="((indiceActual + (respondida ? 1 : 0)) / preguntas.length) * 100"
+            ></div>
           </div>
 
           <!-- Enunciado -->
@@ -49,7 +89,11 @@
 
           <!-- Opciones -->
           @for (opcion of preguntaActual.opciones; track $index) {
-            <button [class]="claseOpcion($index)" (click)="responder($index)" [disabled]="respondida">
+            <button
+              [class]="claseOpcion($index)"
+              (click)="responder($index)"
+              [disabled]="respondida"
+            >
               {{ opcion }}
             </button>
           }
@@ -69,7 +113,6 @@
               </button>
             </div>
           }
-
         </div>
       </div>
     </div>
@@ -92,12 +135,9 @@
             <p class="text-success small mb-3">✓ Puntos guardados en tu cuenta</p>
           }
 
-          <button class="btn btn-bd-primary" (click)="estado = 'menu'">
-            Volver a juegos
-          </button>
+          <button class="btn btn-bd-primary" (click)="estado = 'menu'">Volver a juegos</button>
         </div>
       </div>
     </div>
   }
-
 </div>
