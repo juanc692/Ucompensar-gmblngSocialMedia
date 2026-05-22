@@ -1,6 +1,5 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, signal } from '@angular/core';
 import { UserHttpService } from '../../services/user-http.service';
-import { Component, signal } from '@angular/core';
 import { GamesService } from '../../services/games.service';
 
 interface Pregunta {
@@ -36,7 +35,6 @@ const TOTAL_PREGUNTAS = 5;
 export class GamePage {
 
   dataGames = signal<any[]>([]);//array donde iran los juegos
-  constructor(private gamesService: GamesService){}
   
   ngOnInit(){
     this.gamesService.getGames().subscribe(dataGames => {
@@ -62,7 +60,7 @@ export class GamePage {
   respondida = false;
   guardando = false;
 
-  constructor(private userHttpService: UserHttpService, private cdr: ChangeDetectorRef) {}
+  constructor(private userHttpService: UserHttpService, private cdr: ChangeDetectorRef,private gamesService: GamesService) {}
 
   iniciarTrivia() {
     // Mezcla y toma 5 preguntas al azar
