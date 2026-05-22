@@ -55,5 +55,19 @@ const findUserById = async(id) => {
     } catch (error) {
         console.error(error)
     }
-} 
-module.exports = { findUserByEmail, insertUser, modifyDescription, findUserById, modifyMedia };
+}
+const findTopUsers = async () => {
+  try {
+    const [rows] = await db.query(
+      `SELECT id, name, email, points 
+       FROM users 
+       ORDER BY points DESC 
+       LIMIT 10`
+    );
+    return rows;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}; 
+module.exports = { findUserByEmail, insertUser, modifyDescription, findUserById, modifyMedia,findTopUsers };
