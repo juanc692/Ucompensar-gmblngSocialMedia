@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FeedCard } from '../../components/feed-card/feed-card';
 import { ActivityService, Activity } from '../../services/activity.service';
@@ -15,17 +15,18 @@ export class ActivityPage implements OnInit {
   cargando = false;
   error = '';
 
-  // Estado del formulario "Crear actividad"
   mostrarFormulario = false;
   nuevoNombre = '';
   nuevaDescripcion = '';
   nuevoCosto = 0;
   enviando = false;
 
-  // Búsqueda
   textoBusqueda = '';
 
-  constructor(private activityService: ActivityService) {}
+  constructor(
+    private activityService: ActivityService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.cargarActividades();
@@ -35,20 +36,17 @@ export class ActivityPage implements OnInit {
     this.cargando = true;
     this.error = '';
     this.activityService.getActivities().subscribe({
-      next: (data) => { this.activities = data; this.cargando = false; },
-      error: () => { this.error = 'No se pudieron cargar las actividades.'; this.cargando = false; }
+      next: (data) => { this.activities = data; this.cargando = false; this.cdr.detectChanges(); },
+      error: () => { this.error = 'No se pudieron cargar las actividades.'; this.cargando = false; this.cdr.detectChanges(); }
     });
   }
 
   buscar() {
-    if (!this.textoBusqueda.trim()) {
-      this.cargarActividades();
-      return;
-    }
+    if (!this.textoBusqueda.trim()) { this.cargarActividades(); return; }
     this.cargando = true;
     this.activityService.searchActivity(this.textoBusqueda).subscribe({
-      next: (data) => { this.activities = data; this.cargando = false; },
-      error: () => { this.error = 'Error al buscar.'; this.cargando = false; }
+      next: (data) => { this.activities = data; this.cargando = false; this.cdr.detectChanges(); },
+      error: () => { this.error = 'Error al buscar.'; this.cargando = false; this.cdr.detectChanges(); }
     });
   }
 
@@ -70,19 +68,21 @@ export class ActivityPage implements OnInit {
       next: () => {
         this.enviando = false;
         this.mostrarFormulario = false;
+        this.cdr.detectChanges();
         this.cargarActividades();
       },
       error: () => {
         this.enviando = false;
         this.error = 'Error al crear actividad. ¿Estás logueado?';
+        this.cdr.detectChanges();
       }
     });
   }
 
   unirse(activityId: number) {
     this.activityService.joinActivity(activityId).subscribe({
-      next: () => alert('¡Te uniste a la actividad!'),
-      error: (err) => alert(err.error?.error || 'No se pudo unir a la actividad.')
+      next: () => { alert('¡Te uniste a la actividad!'); this.cdr.detectChanges(); },
+      error: (err) => { alert(err.error?.error || 'No se pudo unir a la actividad.'); }
     });
   }
 }

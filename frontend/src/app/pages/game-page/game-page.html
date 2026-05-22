@@ -1,32 +1,103 @@
-<div class="miniGamesCards row g-4">
+<div class="container mt-4">
 
+  <!-- MENU: cards de juegos -->
+  @if (estado === 'menu') {
+    <div class="miniGamesCards">
 
-     @for (game of dataGames(); track game.id){ <!--for para atraer a todo -->
-        <div class="card text-bg-transparent h-100">
-            <img [src]="game.image.replace('small', 'medium')" alt="" class="card-img">
-            <div class="card-img-overlay cardBtn ">
-                <a [href]="game.url" target="_blank" class="btn btn-bd-primary mb-2">Jugar</a>
-            </div>
+      <!-- Trivia -->
+      <div class="card text-bg-dark">
+        <img src="images/games/uno-ejemplo.png" alt="Trivia" class="card-img" style="opacity: 0.5;">
+        <div class="card-img-overlay d-flex flex-column align-items-center justify-content-center">
+          <h5 class="text-white fw-bold mb-1">Trivia</h5>
+          <small class="text-white mb-3">5 preguntas · 10 pts c/u</small>
+          <button class="btn btn-bd-primary" (click)="iniciarTrivia()">Jugar</button>
         </div>
-    }@empty {
-        <!-- cuando el array no carga -->
-        <p class="loading">Cargando videojuegos desde GamePix...</p>
-    }
-    
+      </div>
 
-        <!-- <div class="col-12 col-md-3">
-            <div class="card text-bg-dark h-100">
-                <img src="images/games/uno-ejemplo.png" alt="" class="card-img">
-                <div class="card-img-overlay cardBtn">
-                     <button class="btn btn-bd-primary mb-2">Jugar</button>
-                </div>
-            </div>
+      <!-- Parchís (próximamente) -->
+      <div class="card text-bg-dark">
+        <img src="images/games/parchis-ejemplo.png" alt="Parchís" class="card-img" style="opacity: 0.3;">
+        <div class="card-img-overlay d-flex flex-column align-items-center justify-content-center">
+          <h5 class="text-white fw-bold mb-1">Parchís</h5>
+          <small class="text-white mb-3">Próximamente</small>
+          <button class="btn btn-secondary" disabled>Jugar</button>
         </div>
-        
-        <div class="card text-bg-dark card ">
-            <img src="images/games/parchis-ejemplo.png" alt="" class="card-img">
-            <div class="card-img-overlay cardBtn ">
-                <button class="btn btn-bd-primary mb-2">Jugar</button>
+      </div>
+
+    </div>
+  }
+
+  <!-- JUGANDO -->
+  @if (estado === 'jugando') {
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <div class="card border-0 bc p-4">
+
+          <!-- Progreso -->
+          <div class="d-flex justify-content-between mb-2">
+            <small class="text-muted">Pregunta {{ indiceActual + 1 }} de {{ preguntas.length }}</small>
+            <small class="fw-bold">{{ puntajePartida }} pts</small>
+          </div>
+          <div class="progress mb-4" style="height: 6px;">
+            <div class="progress-bar"
+              [style.width.%]="((indiceActual + (respondida ? 1 : 0)) / preguntas.length) * 100">
             </div>
-        </div> -->
+          </div>
+
+          <!-- Enunciado -->
+          <h5 class="mb-4">{{ preguntaActual.enunciado }}</h5>
+
+          <!-- Opciones -->
+          @for (opcion of preguntaActual.opciones; track $index) {
+            <button [class]="claseOpcion($index)" (click)="responder($index)" [disabled]="respondida">
+              {{ opcion }}
+            </button>
+          }
+
+          <!-- Feedback + siguiente -->
+          @if (respondida) {
+            <div class="mt-3 d-flex justify-content-between align-items-center">
+              <span>
+                @if (seleccionada === preguntaActual.correcta) {
+                  <span class="text-success fw-bold">✓ ¡Correcto! +{{ 10 }} pts</span>
+                } @else {
+                  <span class="text-danger fw-bold">✗ Incorrecto</span>
+                }
+              </span>
+              <button class="btn btn-bd-primary" (click)="siguiente()">
+                {{ indiceActual < preguntas.length - 1 ? 'Siguiente' : 'Ver resultado' }}
+              </button>
+            </div>
+          }
+
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- RESULTADO -->
+  @if (estado === 'resultado') {
+    <div class="row justify-content-center">
+      <div class="col-md-5 text-center">
+        <div class="card border-0 bc p-5">
+          <h3 class="mb-1">¡Partida terminada!</h3>
+          <p class="text-muted mb-4">{{ preguntas.length }} preguntas respondidas</p>
+
+          <div class="display-4 fw-bold mb-1">{{ puntajePartida }}</div>
+          <p class="text-muted mb-4">puntos ganados</p>
+
+          @if (guardando) {
+            <p class="text-muted small mb-3">Guardando puntos...</p>
+          } @else {
+            <p class="text-success small mb-3">✓ Puntos guardados en tu cuenta</p>
+          }
+
+          <button class="btn btn-bd-primary" (click)="estado = 'menu'">
+            Volver a juegos
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
 </div>
