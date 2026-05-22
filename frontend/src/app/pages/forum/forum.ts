@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PostsCard } from '../../components/posts-card/posts-card';
 import { ForumService, Thread } from '../../services/forum.service';
@@ -16,20 +16,19 @@ export class Forum implements OnInit {
   cargando = false;
   error = '';
 
-  // Estado del formulario "Escribir post"
   mostrarFormulario = false;
   nuevoTitulo = '';
   nuevoContenido = '';
   nuevaCategoria = 'Discusión';
   enviando = false;
 
-  // Búsqueda
   textoBusqueda = '';
   categoriaFiltro = '';
 
   constructor(
     private forumService: ForumService,
-    private userService: UserService
+    private userService: UserService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -43,36 +42,32 @@ export class Forum implements OnInit {
       next: (data) => {
         this.threads = data;
         this.cargando = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.error = 'No se pudieron cargar los posts.';
         this.cargando = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
   buscar() {
-    if (!this.textoBusqueda.trim()) {
-      this.cargarThreads();
-      return;
-    }
+    if (!this.textoBusqueda.trim()) { this.cargarThreads(); return; }
     this.cargando = true;
     this.forumService.searchThreads(this.textoBusqueda).subscribe({
-      next: (data) => { this.threads = data; this.cargando = false; },
-      error: () => { this.error = 'Error al buscar.'; this.cargando = false; }
+      next: (data) => { this.threads = data; this.cargando = false; this.cdr.detectChanges(); },
+      error: () => { this.error = 'Error al buscar.'; this.cargando = false; this.cdr.detectChanges(); }
     });
   }
 
   filtrarPorCategoria(categoria: string) {
     this.categoriaFiltro = categoria;
-    if (!categoria || categoria === 'Todos') {
-      this.cargarThreads();
-      return;
-    }
+    if (!categoria || categoria === 'Todos') { this.cargarThreads(); return; }
     this.cargando = true;
     this.forumService.getThreadsByCategory(categoria).subscribe({
-      next: (data) => { this.threads = data; this.cargando = false; },
-      error: () => { this.error = 'Error al filtrar.'; this.cargando = false; }
+      next: (data) => { this.threads = data; this.cargando = false; this.cdr.detectChanges(); },
+      error: () => { this.error = 'Error al filtrar.'; this.cargando = false; this.cdr.detectChanges(); }
     });
   }
 
@@ -93,11 +88,13 @@ export class Forum implements OnInit {
       next: () => {
         this.enviando = false;
         this.mostrarFormulario = false;
-        this.cargarThreads(); // recarga la lista con el nuevo post
+        this.cdr.detectChanges();
+        this.cargarThreads();
       },
       error: () => {
         this.enviando = false;
         this.error = 'Error al publicar. ¿Estás logueado?';
+        this.cdr.detectChanges();
       }
     });
   }
