@@ -16,7 +16,7 @@ const updateMedia = async (req, res) => {
     try {
         const userId = req.user.id;
         const { photo_profile } = req.body;
-        console.log('body:', req.body);      // ← agrega esto
+        console.log('body:', req.body);    
         console.log('photo_profile:', req.body.media);
         const result = await userService.modifyMedia(userId, photo_profile);
         res.status(200).json(result);
@@ -37,4 +37,12 @@ const modifyDescription = async (req, res) => {
     }
 };
 
-module.exports = { getUserById, updateMedia, modifyDescription };
+const getTopUsers = async (req, res) => {
+  try {
+    const users = await userService.getTopUsers();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+module.exports = { getUserById, updateMedia, modifyDescription,getTopUsers };

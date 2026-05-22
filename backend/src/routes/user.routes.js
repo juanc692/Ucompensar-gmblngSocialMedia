@@ -2,6 +2,7 @@ const router = require('express').Router();
 const userController = require('../controllers/user.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
 
+router.get('/top', userController.getTopUsers); 
 router.get('/:id', userController.getUserById);
 
 router.patch('/update/description', authMiddleware, userController.modifyDescription);

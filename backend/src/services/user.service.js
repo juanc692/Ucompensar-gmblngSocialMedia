@@ -19,4 +19,8 @@ const findUserById = async (id) => {
     return user;
 };
 
-module.exports = { modifyDescription, modifyMedia, findUserById };
+const getTopUsers = async () => {
+  return await userModel.findTopUsers();
+};
+
+module.exports = { modifyDescription, modifyMedia, findUserById, getTopUsers};

@@ -1,10 +1,25 @@
-<div class="miniGamesCards">
+<div class="miniGamesCards row g-4">
 
-        <div class="card text-bg-dark card " >
-            <img src="images/games/uno-ejemplo.png" alt="" class="card-img">
+
+     @for (game of dataGames(); track game.id){ <!--for para atraer a todo -->
+        <div class="card text-bg-transparent h-100">
+            <img [src]="game.image.replace('small', 'medium')" alt="" class="card-img">
             <div class="card-img-overlay cardBtn ">
-                <!-- <a href="#" class="btn btn-primary">Jugar</a> -->
-                 <button class="btn btn-bd-primary mb-2">Jugar</button>
+                <a [href]="game.url" target="_blank" class="btn btn-bd-primary mb-2">Jugar</a>
+            </div>
+        </div>
+    }@empty {
+        <!-- cuando el array no carga -->
+        <p class="loading">Cargando videojuegos desde GamePix...</p>
+    }
+    
+
+        <!-- <div class="col-12 col-md-3">
+            <div class="card text-bg-dark h-100">
+                <img src="images/games/uno-ejemplo.png" alt="" class="card-img">
+                <div class="card-img-overlay cardBtn">
+                     <button class="btn btn-bd-primary mb-2">Jugar</button>
+                </div>
             </div>
         </div>
         
@@ -13,5 +28,5 @@
             <div class="card-img-overlay cardBtn ">
                 <button class="btn btn-bd-primary mb-2">Jugar</button>
             </div>
-        </div>
+        </div> -->
 </div>
