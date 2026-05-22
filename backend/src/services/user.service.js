@@ -1,26 +1,23 @@
 const userModel = require('../models/user.model');
 
-
-//modificar descripcion
 const modifyDescription = async (id, description) => {
-    const updatedUser = await userModel.modifyDescription(description,id);
-    return updatedUser;
+    return await userModel.modifyDescription(description, id);
 };
 
-//modificar foto perfil 
 const modifyMedia = async (id, media) => {
-    const updatedUser = await userModel.modifyMedia( media,id);
-    return updatedUser;
+    return await userModel.modifyMedia(media, id);
 };
 
-//obtener usuario por id 
 const findUserById = async (id) => {
-    const user = await userModel.findUserById(id);
-    return user;
+    return await userModel.findUserById(id);
 };
 
-const getTopUsers = async () => {
-  return await userModel.findTopUsers();
+const getTopUsers = async (limit) => {
+    return await userModel.getTopUsers(limit);
 };
 
-module.exports = { modifyDescription, modifyMedia, findUserById, getTopUsers};
+const addPoints = async (id, points) => {
+    return await userModel.addPoints(id, points);
+};
+
+module.exports = { modifyDescription, modifyMedia, findUserById, getTopUsers, addPoints };

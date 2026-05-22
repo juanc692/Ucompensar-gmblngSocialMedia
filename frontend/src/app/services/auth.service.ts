@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
-// Interfaces que reflejan lo que devuelve el backend
 export interface LoginResponse {
   token: string;
   user: {
     id: number;
     email: string;
     name: string;
+    points?: number;
   };
 }
 
@@ -23,7 +23,6 @@ export interface RegisterResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  // Cambia el puerto si tu backend corre en uno diferente
   private apiUrl = 'http://localhost:3000/api/auth';
 
   constructor(private http: HttpClient) {}
@@ -31,7 +30,6 @@ export class AuthService {
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
       tap(response => {
-        // Guarda el token y los datos del usuario al recibir respuesta exitosa
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
       })

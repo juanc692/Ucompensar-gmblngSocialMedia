@@ -6,12 +6,13 @@ export interface UserData {
   id: number;
   email: string;
   name: string;
+  points?: number;
 }
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
-
+  // Compatibilidad con código existente
   private userNameSource = new BehaviorSubject<string>('Invitado');
   userName = this.userNameSource.asObservable();
 
@@ -19,35 +20,43 @@ export class UserService {
     this.userNameSource.next(name);
   }
 
-
-  // Estado completo del usuario logueado
+  // Estado completo del usuario
   private userSource = new BehaviorSubject<UserData | null>(null);
   user$ = this.userSource.asObservable();
 
+  // Puntos como observable independiente para la navbar
+  private pointsSource = new BehaviorSubject<number>(0);
+  points$ = this.pointsSource.asObservable();
+
   constructor(private authService: AuthService) {
-    // Al iniciar la app, restaura el usuario desde localStorage si ya había sesión
     const savedUser = this.authService.getUser();
     if (savedUser) {
       this.userSource.next(savedUser);
       this.userNameSource.next(savedUser.name);
+      this.pointsSource.next(savedUser.points ?? 0);
     }
   }
 
-  // Llama esto tras un login exitoso para poblar todo el estado
   setUser(user: UserData): void {
     this.userSource.next(user);
-    this.userNameSource.next(user.name); // mantiene sincronizado el observable existente
+    this.userNameSource.next(user.name);
+    this.pointsSource.next(user.points ?? 0);
   }
 
-  // Obtiene el usuario actual de forma síncrona (útil en guards o servicios)
   getCurrentUser(): UserData | null {
     return this.userSource.getValue();
   }
 
-  // Limpia el estado al cerrar sesión
+  // Suma puntos localmente sin necesidad de recargar del backend
+  addPoints(points: number): void {
+    const current = this.pointsSource.getValue();
+    this.pointsSource.next(current + points);
+  }
+
   clearUser(): void {
     this.userSource.next(null);
     this.userNameSource.next('Invitado');
+    this.pointsSource.next(0);
     this.authService.logout();
   }
 }
