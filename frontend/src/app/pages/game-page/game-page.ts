@@ -1,5 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { UserHttpService } from '../../services/user-http.service';
+import { Component, signal } from '@angular/core';
+import { GamesService } from '../../services/games.service';
 
 interface Pregunta {
   enunciado: string;
@@ -32,6 +34,24 @@ const TOTAL_PREGUNTAS = 5;
   styleUrl: './game-page.css',
 })
 export class GamePage {
+
+  dataGames = signal<any[]>([]);//array donde iran los juegos
+  constructor(private gamesService: GamesService){}
+  
+  ngOnInit(){
+    this.gamesService.getGames().subscribe(dataGames => {
+      if (dataGames && dataGames.items) { //verifica que el array no este vacio
+        this.dataGames.set(dataGames.items);
+      }
+      
+      console.log('Juegos cargados en el array:', this.dataGames);
+      }
+    );
+  }
+
+
+    visibleProfile = signal(false);
+    visibleSideBar = signal(true);
 
   estado: EstadoJuego = 'menu';
 
