@@ -1,11 +1,17 @@
 <div class="card border-0 bc mb-3" style="min-height: 150px;">
   <div class="card-body p-4">
-    <h5>{{title}}</h5>
-    @if(URL)
-    {
-        <img src={{URL}} alt="Imagen del post">
+    @if (category) {
+      <span class="badge mb-2" style="background-color: var(--bd-violet-bg); color: var(--bd-violet);">
+        {{ category }}
+      </span>
     }
-    <p>{{content}}</p>
-    </div>
-    <!-- <button class="btn btn-bd-primary" style="width: 200px;align-self: center;">Entrar</button> -->
+    <h5>{{ title }}</h5>
+    @if (URL) {
+      <img [src]="URL" alt="Imagen del post" class="img-fluid mb-2">
+    }
+    <p>{{ content }}</p>
+    @if (createdAt) {
+      <small class="text-muted">{{ formatDate() }}</small>
+    }
+  </div>
 </div>

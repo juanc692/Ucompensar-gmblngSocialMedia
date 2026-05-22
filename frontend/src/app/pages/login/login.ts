@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../models/user-service';
 
 @Component({
   selector: 'app-login',
@@ -8,19 +10,28 @@ import { Router } from '@angular/router';
   styleUrl: './login.css',
 })
 export class Login {
-  constructor(private router: Router) {}
 
-  entrar(usuario: string, contrasenia: string) {
-    if (!usuario || !contrasenia) {
+  errorMsg: string = '';
+
+  constructor(
+    private router: Router,private authService: AuthService,private userService: UserService,private cdr: ChangeDetectorRef
+  ) {}
+
+  entrar(email: string, contrasenia: string) {
+    if (!email || !contrasenia) {
       alert('Por favor, rellena todos los campos.');
       return;
     }
-    this.router.navigate(['/home', usuario]);
-    
+
+    this.authService.login(email, contrasenia).subscribe({
+      next: (response) => {
+        this.userService.setUser(response.user);
+        this.router.navigate(['/home', response.user.id]);
+      },
+      error: (err) => {
+        this.errorMsg = err.error?.error || 'Credenciales incorrectas. Intenta de nuevo.';
+        this.cdr.detectChanges(); // fuerza la actualización del template
+      }
+    });
   }
-  /*
-  Aqui se utiliza un tipo de enrutamiento llamado navegacion programatica, utilizando una ruta dinamica
-  una ruta dinamica es aquella que permite cambiar de ruta y enviar argumentos/datos consigo.
-  Una navegacion programatica es aquella que permite cambiar de ruta dinámicamente desde el código TypeScript.
-  */
 }
