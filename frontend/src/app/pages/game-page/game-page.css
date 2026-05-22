@@ -1,13 +1,21 @@
 .miniGamesCards {
     display: flex;
+    flex-wrap: wrap; 
     gap: 20px;
     padding-left: 50px;
+    
 }
 
 .miniGamesCards .card {
     width: 300px;
     height: 160px;
     overflow: hidden;
+    position: relative;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 0
 }
 
 .miniGamesCards .card:hover {

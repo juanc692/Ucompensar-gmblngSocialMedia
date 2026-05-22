@@ -1,5 +1,6 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, signal } from '@angular/core';
 import { UserHttpService } from '../../services/user-http.service';
+import { GamesService } from '../../services/games.service';
 
 interface Pregunta {
   enunciado: string;
@@ -33,6 +34,23 @@ const TOTAL_PREGUNTAS = 5;
 })
 export class GamePage {
 
+  dataGames = signal<any[]>([]);//array donde iran los juegos
+  
+  ngOnInit(){
+    this.gamesService.getGames().subscribe(dataGames => {
+      if (dataGames && dataGames.items) { //verifica que el array no este vacio
+        this.dataGames.set(dataGames.items);
+      }
+      
+      console.log('Juegos cargados en el array:', this.dataGames);
+      }
+    );
+  }
+
+
+    visibleProfile = signal(false);
+    visibleSideBar = signal(true);
+
   estado: EstadoJuego = 'menu';
 
   preguntas: Pregunta[] = [];
@@ -42,7 +60,7 @@ export class GamePage {
   respondida = false;
   guardando = false;
 
-  constructor(private userHttpService: UserHttpService, private cdr: ChangeDetectorRef) {}
+  constructor(private userHttpService: UserHttpService, private cdr: ChangeDetectorRef,private gamesService: GamesService) {}
 
   iniciarTrivia() {
     // Mezcla y toma 5 preguntas al azar
