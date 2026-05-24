@@ -38,28 +38,25 @@ export class ForumService {
   constructor(private http: HttpClient) {}
 
   getThreads(page = 1, limit = 10): Observable<Thread[]> {
-    return this.http.get<Thread[]>(`${this.apiUrl}/threads`, {
-      params: { page, limit }
-    });
+    return this.http.get<Thread[]>(`${this.apiUrl}/threads`, { params: { page, limit } });
   }
 
   getThreadById(id: number): Observable<Thread> {
     return this.http.get<Thread>(`${this.apiUrl}/threads/${id}`);
   }
 
+  getComments(threadId: number): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`${this.apiUrl}/threads/${threadId}/comments`);
+  }
+
   searchThreads(title: string, page = 1, limit = 10): Observable<Thread[]> {
-    return this.http.get<Thread[]>(`${this.apiUrl}/threads/search`, {
-      params: { title, page, limit }
-    });
+    return this.http.get<Thread[]>(`${this.apiUrl}/threads/search`, { params: { title, page, limit } });
   }
 
   getThreadsByCategory(category: string, page = 1, limit = 10): Observable<Thread[]> {
-    return this.http.get<Thread[]>(`${this.apiUrl}/threads/category`, {
-      params: { category, page, limit }
-    });
+    return this.http.get<Thread[]>(`${this.apiUrl}/threads/category`, { params: { category, page, limit } });
   }
 
-  // Requiere JWT — el interceptor lo adjunta automáticamente
   createThread(payload: CreateThreadPayload): Observable<Thread> {
     return this.http.post<Thread>(`${this.apiUrl}/threads`, payload);
   }

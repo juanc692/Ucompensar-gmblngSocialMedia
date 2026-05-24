@@ -55,10 +55,12 @@
 <div class="row">
   @for (thread of threads; track thread.id) {
     <app-posts-card
+      [threadId]="thread.id"
       [title]="thread.title"
       [content]="thread.body"
       [category]="thread.category"
-      [createdAt]="thread.created_at">
+      [createdAt]="thread.created_at"
+      [authorName]="thread.author_name || ''">
     </app-posts-card>
   }
   @empty {

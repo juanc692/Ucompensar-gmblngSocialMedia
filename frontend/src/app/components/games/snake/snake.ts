@@ -70,7 +70,7 @@ export class SnakeComponent implements OnInit {
 
   saveAndExit(){
     // 
-    this.userHttpService.awardPoints(0);
+    this.userHttpService.awardPoints(this.score);
     this.router.navigate(['/games']);
     this.cdr.detectChanges();
   }

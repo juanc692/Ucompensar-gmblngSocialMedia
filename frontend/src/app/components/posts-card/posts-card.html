@@ -1,5 +1,6 @@
-<div class="card border-0 bc mb-3" style="min-height: 150px;">
-  <div class="card-body p-4">
+<div class="card border-0 bc mb-3">
+  <!-- CABECERA DEL POST -->
+  <div class="card-body p-4" style="cursor: pointer;" (click)="toggleExpandir()">
     @if (category) {
       <span class="badge mb-2" style="background-color: var(--bd-violet-bg); color: var(--bd-violet);">
         {{ category }}
@@ -9,9 +10,78 @@
     @if (URL) {
       <img [src]="URL" alt="Imagen del post" class="img-fluid mb-2">
     }
-    <p>{{ content }}</p>
-    @if (createdAt) {
-      <small class="text-muted">{{ formatDate() }}</small>
-    }
+    <p class="mb-1">{{ content }}</p>
+    <div class="d-flex justify-content-between align-items-center mt-2">
+      @if (createdAt) {
+        <small class="text-muted">{{ formatDate() }} {{ authorName ? '· ' + authorName : '' }}</small>
+      }
+      <small class="text-muted">{{ expandido ? '▲ Ocultar' : '▼ Comentarios' }}</small>
+    </div>
   </div>
+
+  <!-- SECCIÓN DE COMENTARIOS (expandible) -->
+  @if (expandido) {
+    <div class="border-top px-4 pb-4 pt-3">
+
+      <!-- Caja para escribir comentario raíz -->
+      <div class="mb-3">
+        <textarea
+          class="form-control mb-2"
+          rows="2"
+          placeholder="Escribe un comentario..."
+          [(ngModel)]="nuevoComentario">
+        </textarea>
+        <button class="btn btn-bd-primary btn-sm" (click)="comentar()" [disabled]="enviando">
+          {{ enviando ? 'Enviando...' : 'Comentar' }}
+        </button>
+      </div>
+
+      <!-- Lista de comentarios -->
+      @if (cargandoComentarios) {
+        <p class="text-muted small">Cargando comentarios...</p>
+      }
+
+      @for (comentario of comentarios; track comentario.id) {
+        <div class="mb-3 ps-2 border-start border-2">
+          <small class="text-muted">{{ comentario.author_name }} · {{ formatDate(comentario.created_at) }}</small>
+          <p class="mb-1 mt-1">{{ comentario.body }}</p>
+
+          <!-- Botón responder -->
+          @if (respondiendo !== comentario.id) {
+            <button class="btn btn-link btn-sm p-0 text-muted" (click)="responder(comentario.id)">
+              Responder
+            </button>
+          }
+
+          <!-- Caja de respuesta -->
+          @if (respondiendo === comentario.id) {
+            <div class="mt-2">
+              <textarea
+                class="form-control mb-1"
+                rows="2"
+                placeholder="Escribe tu respuesta..."
+                [(ngModel)]="textoRespuesta">
+              </textarea>
+              <button class="btn btn-bd-primary btn-sm me-2" (click)="enviarRespuesta(comentario.id)">Responder</button>
+              <button class="btn btn-outline-secondary btn-sm" (click)="cancelarRespuesta()">Cancelar</button>
+            </div>
+          }
+
+          <!-- Replies anidadas -->
+          @for (reply of comentario.replies; track reply.id) {
+            <div class="mt-2 ms-3 ps-2 border-start border-1">
+              <small class="text-muted">{{ reply.author_name }} · {{ formatDate(reply.created_at) }}</small>
+              <p class="mb-0 mt-1">{{ reply.body }}</p>
+            </div>
+          }
+        </div>
+      }
+
+      @empty {
+        @if (!cargandoComentarios) {
+          <p class="text-muted small">Sé el primero en comentar.</p>
+        }
+      }
+    </div>
+  }
 </div>
