@@ -2,11 +2,11 @@ const router = require('express').Router();
 const forumController = require('../controllers/forum.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
 
-
 router.get('/threads', forumController.getThreads);
 router.get('/threads/search', forumController.searchThreads);
 router.get('/threads/category', forumController.getThreadsByCategory);
-router.get('/threads/:id', forumController.getThreadById);  
+router.get('/threads/:id', forumController.getThreadById);
+router.get('/threads/:id/comments', forumController.getComments);
 
 router.post('/threads', authMiddleware, forumController.createThread);
 router.delete('/threads/:id', authMiddleware, forumController.deleteThread);

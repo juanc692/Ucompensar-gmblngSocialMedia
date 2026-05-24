@@ -22,10 +22,9 @@ const login = async (email, password) => {
     const token = jwt.sign(
         { id: user.id, email: user.email },
         process.env.JWT_SECRET,
-        { expiresIn: '1h' }
+        { expiresIn: '7d' } // 7 días en lugar de 1 hora
     );
 
-    // Incluye points para que el frontend pueda mostrarlo desde el inicio
     return { token, user: { id: user.id, email: user.email, name: user.name, points: user.points ?? 0 } };
 };
 

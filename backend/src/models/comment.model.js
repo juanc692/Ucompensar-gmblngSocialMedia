@@ -1,6 +1,5 @@
 const db = require('../config/db');
 
-//encontrar ultimo comentario del hilo 
 const findLastByThread = async (threadId) => {
   try {
     const [rows] = await db.query(
@@ -13,13 +12,9 @@ const findLastByThread = async (threadId) => {
       [threadId]
     );
     return rows;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  } catch (error) { console.error(error); throw error; }
 };
 
-//odos los comentarios de un hilo
 const findAllByThread = async (threadId) => {
   try {
     const [rows] = await db.query(
@@ -31,37 +26,26 @@ const findAllByThread = async (threadId) => {
       [threadId]
     );
     return rows;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  } catch (error) { console.error(error); throw error; }
 };
 
-//insertar comentario
-const createComment = async (authorId, threadId, body,parentId = null, media = null,) => {
+const createComment = async (authorId, threadId, body, parentId = null, media = null) => {
   try {
     const [result] = await db.query(
-     `INSERT INTO comments (thread_id, author_id, body, parent_id, media)
-       VALUES (?, ?, ?, ?, ?)`,
+      `INSERT INTO comments (thread_id, author_id, body, parent_id, media, created_at)
+       VALUES (?, ?, ?, ?, ?, NOW())`,
       [threadId, authorId, body, parentId, media]
     );
     return { id: result.insertId, authorId, threadId, body };
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  } catch (error) { console.error(error); throw error; }
 };
 
-//eliminar comentarios
 const deleteComment = async (id) => {
   try {
     await db.query('DELETE FROM comments WHERE parent_id = ?', [id]);
     await db.query('DELETE FROM comments WHERE id = ?', [id]);
     return { message: 'Comentario eliminado' };
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  } catch (error) { console.error(error); throw error; }
 };
 
 module.exports = { createComment, findAllByThread, findLastByThread, deleteComment };
