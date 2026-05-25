@@ -1,0 +1,40 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: atlasSocialDB
+      MYSQL_USER: usuario_node
+      MYSQL_PASSWORD: user_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./initdb:/docker-entrypoint-initdb.d
+
+  backend:
+    build: ./backend
+    container_name: node_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=usuario_node
+      - DB_PASSWORD=user_password
+      - DB_NAME=atlasSocialDB
+      - DB_PORT=3306
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: angular_frontend
+    ports:
+      - "4200:4200"
+    restart: always
+
+volumes:
+  db_data:
