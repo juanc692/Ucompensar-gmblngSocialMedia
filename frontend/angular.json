@@ -22,12 +22,41 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/app/components/games/pacman/img",
+                "output": "assets/pacman/img"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/app/components/games/pacman/sound",
+                "output": "assets/pacman/sound"
+              },
+              {
+                "glob": "Quadrit.ttf",
+                "input": "src/app/components/games/pacman/fonts",
+                "output": "assets/pacman/fonts"
               }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
 
+            ],
+            "scripts": [
+              "src/app/components/games/pacman/ts/jquery.js",
+              "src/app/components/games/pacman/ts/jquery-buzz.js",
+              "src/app/components/games/pacman/ts/game.js",
+              "src/app/components/games/pacman/ts/tools.js",
+              "src/app/components/games/pacman/ts/board.js",
+              "src/app/components/games/pacman/ts/paths.js",
+              "src/app/components/games/pacman/ts/bubbles.js",
+              "src/app/components/games/pacman/ts/fruits.js",
+              "src/app/components/games/pacman/ts/pacman.js",
+              "src/app/components/games/pacman/ts/ghosts.js",
+              "src/app/components/games/pacman/ts/home.js",
+              "src/app/components/games/pacman/ts/sound.js"
             ]
           },
           "configurations": {
