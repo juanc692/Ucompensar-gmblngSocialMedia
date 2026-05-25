@@ -6,6 +6,7 @@ import { ActivityPage } from './pages/activity-page/activity-page';
 import { Login } from './pages/login/login';
 import { guestGuard, authGuard } from './guards/auth.guard-guard';
 import { SnakeComponent } from './components/games/snake/snake';
+import {Pacman} from './components/games/pacman/pacman';
 
 export const routes: Routes = [
     { path: '', component: Login, canActivate: [guestGuard] },
@@ -13,5 +14,6 @@ export const routes: Routes = [
     { path: 'games', component: GamePage, canActivate: [authGuard] },
     { path: 'forum', component: Forum, canActivate: [authGuard] },
     { path: 'activities', component: ActivityPage, canActivate: [authGuard] },
-    { path: 'games/snakeGame', component:SnakeComponent,canActivate:[authGuard]}
+    { path: 'games/snakeGame', component:SnakeComponent,canActivate:[authGuard]},
+    { path: 'games/pacman', component:Pacman,canActivate:[authGuard]}
 ];
