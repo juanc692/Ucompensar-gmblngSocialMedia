@@ -14,7 +14,7 @@ export class FeedCard extends BasePost {
   @Input() costPoints: number = 0;
   @Input() activityId: number = 0;
 
-  // Emite el id de la actividad al componente padre cuando el usuario pulsa "Entrar"
+  // Emite el id de la actividad al componente padre cuando el usuario pulsa "Unirme"
   @Output() onJoin = new EventEmitter<number>();
 
   unirse() {

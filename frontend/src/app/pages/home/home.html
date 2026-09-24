@@ -1,46 +1,67 @@
-<div class="container mt-4">
+<div class="page">
+  <header class="page-head">
+    <div>
+      <h1>Hola, {{ userName }}</h1>
+      <p class="sub">Esto es lo último en Círculo U.</p>
+    </div>
+  </header>
 
-  <h2>Actividades recientes para ti, {{ userName }}</h2>
-  <div class="row">
-    <div class="col-md-8">
-      <div class="row g-3">
-        @for (activity of ultimasActividades; track activity.id) {
-          <div class="col-md-6">
-            <app-feed-card
-              [title]="activity.name_activity"
-              [content]="activity.description"
-              [costPoints]="activity.cost_points"
-              [activityId]="activity.id">
-            </app-feed-card>
+  <div class="home-grid">
+    <div class="stack">
+      <section aria-labelledby="h-act">
+        <div class="sec">
+          <h2 id="h-act">Actividades abiertas para unirte</h2>
+        </div>
+        @if (ultimasActividades.length) {
+          <div class="panel list">
+            @for (activity of ultimasActividades; track activity.id) {
+              <app-feed-card
+                [title]="activity.name_activity"
+                [content]="activity.description"
+                [costPoints]="activity.cost_points"
+                [activityId]="activity.id">
+              </app-feed-card>
+            }
+          </div>
+        } @else {
+          <div class="panel">
+            <div class="empty">
+              <h3>Aún no hay actividades</h3>
+              <p>Cuando se creen actividades en el campus, aparecerán aquí.</p>
+            </div>
           </div>
         }
-        @empty {
-          <p class="text-muted">No hay actividades aún.</p>
+      </section>
+    </div>
+
+    <section aria-labelledby="h-top">
+      <div class="sec"><h2 id="h-top">Ranking</h2></div>
+      <app-top-leather></app-top-leather>
+    </section>
+  </div>
+
+  <section aria-labelledby="h-forum" style="margin-top:30px">
+    <div class="sec"><h2 id="h-forum">Últimas del foro</h2></div>
+    @if (ultimosThreads.length) {
+      <div class="panel list">
+        @for (thread of ultimosThreads; track thread.id) {
+          <app-posts-card
+            [threadId]="thread.id"
+            [title]="thread.title"
+            [content]="thread.body"
+            [category]="thread.category"
+            [createdAt]="thread.created_at"
+            [authorName]="thread.author_name || ''">
+          </app-posts-card>
         }
       </div>
-    </div>
-
-    <!-- ranking -->
-    <div class="col-md-4">
-      <app-top-leather></app-top-leather>
-    </div>
-  </div>
-
-  <h2 class="mt-4">Últimas publicaciones</h2>
-  <div class="row">
-    @for (thread of ultimosThreads; track thread.id) {
-      <app-posts-card
-        [threadId]="thread.id"
-        [title]="thread.title"
-        [content]="thread.body"
-        [category]="thread.category"
-        [createdAt]="thread.created_at"
-        [authorName]="thread.author_name || ''">
-      </app-posts-card>
+    } @else {
+      <div class="panel">
+        <div class="empty">
+          <h3>Todavía no hay publicaciones</h3>
+          <p>Sé la primera persona en escribir en el foro.</p>
+        </div>
+      </div>
     }
-    @empty {
-      <p class="text-muted">No hay publicaciones aún.</p>
-    }
-  </div>
-
+  </section>
 </div>

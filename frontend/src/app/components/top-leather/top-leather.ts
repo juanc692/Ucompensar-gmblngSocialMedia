@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Avatar } from '../avatar/avatar';
 
 interface TopUser {
   id: number;
@@ -9,12 +10,11 @@ interface TopUser {
 
 @Component({
   selector: 'app-top-leather',
-  imports: [],
+  imports: [Avatar],
   templateUrl: './top-leather.html',
   styleUrl: './top-leather.css',
 })
 export class TopLeather implements OnInit {
-
   topUsers: TopUser[] = [];
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}

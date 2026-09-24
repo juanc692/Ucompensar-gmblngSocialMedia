@@ -1,12 +1,17 @@
-<div class="card border-0 bc mb-3" style="min-height: 150px;">
-  <div class="card-body">
-    <h5>{{ title }}</h5>
-    <p>{{ content }}</p>
-    @if (costPoints > 0) {
-      <small class="text-muted">Costo: {{ costPoints }} puntos</small>
-    }
+<article class="act">
+  <div class="dcirc" aria-hidden="true">
+    <svg class="i" viewBox="0 0 24 24" style="width:22px;height:22px"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
   </div>
-  <button class="btn btn-bd-primary" style="width: 200px; align-self: center;" (click)="unirse()">
-    Entrar
-  </button>
-</div>
+  <div>
+    <div class="act-title">
+      <h3>{{ title }}</h3>
+      @if (costPoints > 0) {
+        <span class="badge ev">{{ costPoints }} pts</span>
+      }
+    </div>
+    <p class="act-desc">{{ content }}</p>
+  </div>
+  <div class="act-actions">
+    <button class="btn sm" type="button" (click)="unirse()">Unirme</button>
+  </div>
+</article>

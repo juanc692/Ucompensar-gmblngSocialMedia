@@ -1,13 +1,19 @@
-<div class="card border-0 bc mb-3" style="height: 100%;">
-  <div class="card-body text-center">
-    <h4>TOP</h4>
-    <ol>
-      @for (user of topUsers; track user.id) {
-        <li>{{ user.name }} — {{ user.points }} pts</li>
-      }
-      @empty {
-        <li class="text-muted" style="list-style: none;">Sin datos aún</li>
-      }
-    </ol>
-  </div>
-</div>
+<aside class="board panel" aria-label="Clasificación">
+  <h2>
+    <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v6a4 4 0 0 1-8 0z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 14v4M8 20h8"/></svg>
+    Top de puntos
+  </h2>
+  <ol class="rank">
+    @for (user of topUsers; track user.id; let i = $index) {
+      <li [class.top]="i === 0">
+        <span class="rk">{{ i + 1 }}</span>
+        <app-avatar [size]="30" [name]="user.name"></app-avatar>
+        <span class="nm">{{ user.name }}</span>
+        <span class="pt">{{ user.points }}</span>
+      </li>
+    }
+    @empty {
+      <li class="muted small" style="display:block;padding:8px">Sin datos aún</li>
+    }
+  </ol>
+</aside>

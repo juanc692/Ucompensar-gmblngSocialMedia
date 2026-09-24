@@ -1,8 +1,1 @@
-.bc{
-    background-color: #D9D9D9;
-    border-radius: 30px;
-}
-
-img{
-    width: 20%;
-}
+/* El estilo visual vive en styles.scss (.post, .post-main, .post-head, .post-text, .thread, .cmt) */

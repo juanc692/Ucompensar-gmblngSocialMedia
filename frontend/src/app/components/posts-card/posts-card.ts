@@ -1,10 +1,11 @@
 import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ForumService, Comment } from '../../services/forum.service';
+import { Avatar } from '../avatar/avatar';
 
 @Component({
   selector: 'app-posts-card',
-  imports: [FormsModule],
+  imports: [FormsModule, Avatar],
   templateUrl: './posts-card.html',
   styleUrl: './posts-card.css',
 })
