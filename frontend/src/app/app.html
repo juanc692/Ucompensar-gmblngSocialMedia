@@ -1,32 +1,28 @@
-<app-navbar
-(toggleSidebar)="toggleSidebar()" (toggleProfile)="toggleProfile()"></app-navbar>
+@if (showShell()) {
+  <div class="app-shell" [class.collapsed]="collapsed()">
+    <app-sidebar
+      [mobileOpen]="mobileOpen()"
+      [collapsed]="collapsed()"
+      (toggleCollapse)="toggleCollapse()"
+      (closeDrawer)="closeSidebarDrawer()">
+    </app-sidebar>
 
-<div class="container-fluid">
-  <div class="row">
-    
-    @if (visibleSideBar()) {
-      <aside class="col-md-3 d-none d-md-block bg-white border-end">
-        <app-sidebar></app-sidebar>
-      </aside>
+    @if (mobileOpen()) {
+      <div class="scrim" (click)="closeSidebarDrawer()"></div>
     }
 
-    <main class="p-4"
-      [class.col-md-6]="visibleSideBar()"
-      [class.col-md-9]="visibleSideBar()"
-      [class.col-md-12]="!visibleSideBar()">
+    <div class="main-col">
+      <app-navbar
+        (toggleSidebar)="toggleSidebar()"
+        (toggleProfile)="toggleProfile()"
+        [profileOpen]="visibleProfile()">
+      </app-navbar>
 
-      <router-outlet></router-outlet>
-
-    </main>
-
-    @if (visibleProfile()) {
-      <section class="col-md-3 p-4">
-        <app-profile nombre={{user}} class="profile-overlay" (toggleProfile)="toggleProfile()"
-        animate.enter="slideIn"
-        animate.leave="slideOut"
-        ></app-profile>
-      </section>
-    }
-
+      <main id="view">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
   </div>
-</div>
+} @else {
+  <router-outlet></router-outlet>
+}

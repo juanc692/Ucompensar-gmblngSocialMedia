@@ -1,87 +1,86 @@
-<div class="card border-0 bc mb-3">
-  <!-- CABECERA DEL POST -->
-  <div class="card-body p-4" style="cursor: pointer;" (click)="toggleExpandir()">
-    @if (category) {
-      <span class="badge mb-2" style="background-color: var(--bd-violet-bg); color: var(--bd-violet);">
-        {{ category }}
-      </span>
-    }
-    <h5>{{ title }}</h5>
-    @if (URL) {
-      <img [src]="URL" alt="Imagen del post" class="img-fluid mb-2">
-    }
-    <p class="mb-1">{{ content }}</p>
-    <div class="d-flex justify-content-between align-items-center mt-2">
+<article class="post">
+  <app-avatar [size]="40" [name]="authorName || 'Estudiante'"></app-avatar>
+  <div class="post-main">
+    <div class="post-head" style="cursor:pointer" (click)="toggleExpandir()">
+      <strong>{{ authorName || 'Anónimo' }}</strong>
+      @if (category) {
+        <span class="badge">{{ category }}</span>
+      }
       @if (createdAt) {
-        <small class="text-muted">{{ formatDate() }} {{ authorName ? '· ' + authorName : '' }}</small>
+        <span class="time">{{ formatDate() }}</span>
       }
-      <small class="text-muted">{{ expandido ? '▲ Ocultar' : '▼ Comentarios' }}</small>
     </div>
-  </div>
+    <h3 style="margin:6px 0 2px">{{ title }}</h3>
+    @if (URL) {
+      <img [src]="URL" alt="Imagen del post" style="max-width:100%;border-radius:12px;margin:6px 0">
+    }
+    <p class="post-text">{{ content }}</p>
+    <div class="post-actions">
+      <button class="pa" type="button" (click)="toggleExpandir()">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>{{ expandido ? 'Ocultar' : 'Comentarios' }}</span>
+      </button>
+    </div>
 
-  <!-- SECCIÓN DE COMENTARIOS (expandible) -->
-  @if (expandido) {
-    <div class="border-top px-4 pb-4 pt-3">
-
-      <!-- Caja para escribir comentario raíz -->
-      <div class="mb-3">
-        <textarea
-          class="form-control mb-2"
-          rows="2"
-          placeholder="Escribe un comentario..."
-          [(ngModel)]="nuevoComentario">
-        </textarea>
-        <button class="btn btn-bd-primary btn-sm" (click)="comentar()" [disabled]="enviando">
-          {{ enviando ? 'Enviando...' : 'Comentar' }}
-        </button>
-      </div>
-
-      <!-- Lista de comentarios -->
-      @if (cargandoComentarios) {
-        <p class="text-muted small">Cargando comentarios...</p>
-      }
-
-      @for (comentario of comentarios; track comentario.id) {
-        <div class="mb-3 ps-2 border-start border-2">
-          <small class="text-muted">{{ comentario.author_name }} · {{ formatDate(comentario.created_at) }}</small>
-          <p class="mb-1 mt-1">{{ comentario.body }}</p>
-
-          <!-- Botón responder -->
-          @if (respondiendo !== comentario.id) {
-            <button class="btn btn-link btn-sm p-0 text-muted" (click)="responder(comentario.id)">
-              Responder
-            </button>
-          }
-
-          <!-- Caja de respuesta -->
-          @if (respondiendo === comentario.id) {
-            <div class="mt-2">
-              <textarea
-                class="form-control mb-1"
-                rows="2"
-                placeholder="Escribe tu respuesta..."
-                [(ngModel)]="textoRespuesta">
-              </textarea>
-              <button class="btn btn-bd-primary btn-sm me-2" (click)="enviarRespuesta(comentario.id)">Responder</button>
-              <button class="btn btn-outline-secondary btn-sm" (click)="cancelarRespuesta()">Cancelar</button>
-            </div>
-          }
-
-          <!-- Replies anidadas -->
-          @for (reply of comentario.replies; track reply.id) {
-            <div class="mt-2 ms-3 ps-2 border-start border-1">
-              <small class="text-muted">{{ reply.author_name }} · {{ formatDate(reply.created_at) }}</small>
-              <p class="mb-0 mt-1">{{ reply.body }}</p>
-            </div>
-          }
+    @if (expandido) {
+      <div class="thread">
+        <div class="cmt-form">
+          <label class="sr" for="cmt-{{ threadId }}">Escribe un comentario</label>
+          <input
+            type="text"
+            id="cmt-{{ threadId }}"
+            placeholder="Escribe un comentario..."
+            [(ngModel)]="nuevoComentario">
+          <button class="btn sm" type="button" (click)="comentar()" [disabled]="enviando">
+            {{ enviando ? 'Enviando...' : 'Comentar' }}
+          </button>
         </div>
-      }
 
-      @empty {
-        @if (!cargandoComentarios) {
-          <p class="text-muted small">Sé el primero en comentar.</p>
+        @if (cargandoComentarios) {
+          <p class="muted small">Cargando comentarios...</p>
         }
-      }
-    </div>
-  }
-</div>
+
+        @for (comentario of comentarios; track comentario.id) {
+          <div class="cmt">
+            <app-avatar [size]="30" [name]="comentario.author_name || 'Estudiante'"></app-avatar>
+            <div>
+              <strong>{{ comentario.author_name }}</strong>
+              <span class="time">{{ formatDate(comentario.created_at) }}</span>
+              <p>{{ comentario.body }}</p>
+
+              @if (respondiendo !== comentario.id) {
+                <button class="linkbtn" type="button" (click)="responder(comentario.id)">Responder</button>
+              }
+
+              @if (respondiendo === comentario.id) {
+                <div class="cmt-form" style="margin-top:8px">
+                  <input
+                    type="text"
+                    placeholder="Escribe tu respuesta..."
+                    [(ngModel)]="textoRespuesta">
+                  <button class="btn sm" type="button" (click)="enviarRespuesta(comentario.id)">Responder</button>
+                  <button class="btn ghost sm" type="button" (click)="cancelarRespuesta()">Cancelar</button>
+                </div>
+              }
+
+              @for (reply of comentario.replies; track reply.id) {
+                <div class="cmt" style="margin-top:10px;margin-left:8px">
+                  <app-avatar [size]="26" [name]="reply.author_name || 'Estudiante'"></app-avatar>
+                  <div>
+                    <strong>{{ reply.author_name }}</strong>
+                    <span class="time">{{ formatDate(reply.created_at) }}</span>
+                    <p>{{ reply.body }}</p>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        } @empty {
+          @if (!cargandoComentarios) {
+            <p class="muted small">Sé el primero en comentar.</p>
+          }
+        }
+      </div>
+    }
+  </div>
+</article>

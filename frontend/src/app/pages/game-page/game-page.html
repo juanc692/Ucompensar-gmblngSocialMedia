@@ -1,9 +1,13 @@
-<div class="container mt-4">
+<div class="page">
   <!-- MENU: cards de juegos -->
   @if (estado === 'menu') {
-    <h3 class="ms-4 mb-3 mt-4 fw-bold border-start border-3 border-primary ps-3">
-      Juegos personalisados
-    </h3>
+    <header class="page-head">
+      <div>
+        <h1>Juegos</h1>
+        <p class="sub">Juega para ganar puntos. Los necesitas para crear actividades.</p>
+      </div>
+    </header>
+    <h2 class="mb-3">Juegos personalizados</h2>
     <div class="miniGamesCards">
       <!-- Trivia -->
       <div class="card text-bg-dark">
@@ -55,9 +59,7 @@
       </div>
     </div>
     <!-- Juegos traidos de la API -->
-    <h3 class="ms-4 mb-3 mt-4 fw-bold border-start border-3 border-primary ps-3">
-      Juegos Externos
-    </h3>
+    <h2 class="mb-3 mt-4">Juegos externos</h2>
 
     <div class="miniGamesCards row g-4">
       @for (game of dataGames(); track game.id) {

@@ -1,71 +1,78 @@
-<div class="d-flex align-items-center gap-3 mb-3">
+<div class="page">
+  <header class="page-head">
+    <div>
+      <h1>Foro</h1>
+      <p class="sub">Conversa con estudiantes y docentes del campus.</p>
+    </div>
+  </header>
 
-  <select class="form-select w-auto custom-select" (change)="filtrarPorCategoria($any($event.target).value)">
-    <option value="">Todos</option>
-    <option value="Ayuda">Ayuda</option>
-    <option value="Discusión">Discusión</option>
-  </select>
+  <section class="panel composer" aria-label="Nueva publicación">
+    <div class="comp-body">
+      <label class="sr" for="postTitle">Título</label>
+      <input
+        id="postTitle"
+        type="text"
+        placeholder="Título de tu publicación"
+        [(ngModel)]="nuevoTitulo">
+      <label class="sr" for="postText">Escribe una publicación</label>
+      <textarea id="postText" rows="2" placeholder="Comparte algo con el campus" [(ngModel)]="nuevoContenido"></textarea>
+      <div class="comp-row">
+        <label class="sr" for="postTag">Tema</label>
+        <select id="postTag" [(ngModel)]="nuevaCategoria">
+          <option value="Ayuda">Ayuda</option>
+          <option value="Discusión">Discusión</option>
+        </select>
+        <button class="btn sm" (click)="publicar()" [disabled]="enviando">
+          {{ enviando ? 'Publicando...' : 'Publicar' }}
+        </button>
+      </div>
+    </div>
+  </section>
 
-  <input
-    type="text"
-    class="form-control flex-grow-1"
-    placeholder="Buscar"
-    [(ngModel)]="textoBusqueda"
-    (keyup.enter)="buscar()">
-
-  <button class="btn btn-bd-primary w-50" (click)="toggleFormulario()">
-    {{ mostrarFormulario ? 'Cancelar' : 'Escribir post' }}
-  </button>
-</div>
-
-<!-- Formulario nuevo post -->
-@if (mostrarFormulario) {
-  <div class="card border-0 bc p-4 mb-3">
-    <h5 class="mb-3">Nuevo post</h5>
-    <select class="form-select mb-2" [(ngModel)]="nuevaCategoria">
-      <option value="Ayuda">Ayuda</option>
-      <option value="Discusión">Discusión</option>
-    </select>
-    <input
-      type="text"
-      class="form-control mb-2"
-      placeholder="Título"
-      [(ngModel)]="nuevoTitulo">
-    <textarea
-      class="form-control mb-3"
-      rows="4"
-      placeholder="¿Qué quieres compartir?"
-      [(ngModel)]="nuevoContenido">
-    </textarea>
-    <button class="btn btn-bd-primary" (click)="publicar()" [disabled]="enviando">
-      {{ enviando ? 'Publicando...' : 'Publicar' }}
-    </button>
+  <div class="chips" role="group" aria-label="Filtrar publicaciones">
+    <button class="chip" [class.active]="categoriaFiltro === ''" (click)="filtrarPorCategoria('')">Todo</button>
+    <button class="chip" [class.active]="categoriaFiltro === 'Ayuda'" (click)="filtrarPorCategoria('Ayuda')">Ayuda</button>
+    <button class="chip" [class.active]="categoriaFiltro === 'Discusión'" (click)="filtrarPorCategoria('Discusión')">Discusión</button>
   </div>
-}
 
-<!-- Estado de carga / error -->
-@if (cargando) {
-  <p class="text-muted text-center mt-4">Cargando posts...</p>
-}
-@if (error) {
-  <p class="text-danger text-center mt-4">{{ error }}</p>
-}
+  <div class="field" style="max-width:340px;margin-bottom:16px">
+    <label for="buscar" class="sr">Buscar</label>
+    <input
+      id="buscar"
+      type="text"
+      placeholder="Buscar en el foro"
+      [(ngModel)]="textoBusqueda"
+      (keyup.enter)="buscar()">
+  </div>
 
-<!-- Lista de posts -->
-<div class="row">
-  @for (thread of threads; track thread.id) {
-    <app-posts-card
-      [threadId]="thread.id"
-      [title]="thread.title"
-      [content]="thread.body"
-      [category]="thread.category"
-      [createdAt]="thread.created_at"
-      [authorName]="thread.author_name || ''">
-    </app-posts-card>
+  @if (cargando) {
+    <p class="muted" style="text-align:center;margin:20px 0">Cargando posts...</p>
   }
-  @empty {
+  @if (error) {
+    <p class="err" style="text-align:center;margin:20px 0">{{ error }}</p>
+  }
+
+  @if (threads.length) {
+    <div class="panel list">
+      @for (thread of threads; track thread.id) {
+        <app-posts-card
+          [threadId]="thread.id"
+          [title]="thread.title"
+          [content]="thread.body"
+          [category]="thread.category"
+          [createdAt]="thread.created_at"
+          [authorName]="thread.author_name || ''">
+        </app-posts-card>
+      }
+    </div>
+  } @else {
     @if (!cargando) {
-      <p class="text-muted text-center mt-4">No hay posts todavía.</p>
+      <div class="panel">
+        <div class="empty">
+          <h3>Todavía no hay publicaciones aquí</h3>
+          <p>Sé la primera persona en escribir en este tema.</p>
+        </div>
+      </div>
     }
   }
 </div>

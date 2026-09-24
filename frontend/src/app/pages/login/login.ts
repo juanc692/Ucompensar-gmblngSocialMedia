@@ -3,9 +3,12 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../models/user-service';
 
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [CommonModule,FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
